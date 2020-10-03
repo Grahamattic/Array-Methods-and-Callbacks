@@ -77,7 +77,7 @@ and returns an array of objects with only finals data */
         getFinals(fifaData);
 
 
-        
+
 /* Task 3: Implement a higher-order function called `getYears` that accepts the callback function
 `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
@@ -87,26 +87,20 @@ and returns an array of objects with only finals data */
 
         function getFinals(array) {
 
-            let finals = [];
+            let finalsData = [];
         
-            for(i = 0; i < array.length; i++) {
-                if (array[i].Stage === "Final") {
-                    finals.push(array[i]);
-                }
-            }
-            return finals;
-        }
+            finalsData = array.filter(function(finals) {
+                return finals.Stage === "Final";
+            });
+            return finalsData;
+        };
         
         function getYears(callback) {
         
             let finalYears = getFinals(fifaData);
           
-            let years = [];
-          
-            for(i = 0; i < finalYears.length; i++) {
-              years.push(finalYears[i].Year);
-            }
-            console.log(years);
+          const years = finalYears.map(i => i.Year);
+          console.log(years);
         };
         
         getYears(getFinals);
