@@ -142,53 +142,60 @@ Parameters:
  * callback function getYears
  */
 
-function getFinals(array) {
+        function getFinals(array) {
 
-    let finalsData = [];
+            let finalsData = [];
 
-    finalsData = array.filter(function(finals) {
-        return finals.Stage === "Final";
-    });
-    return finalsData;
-};
+            finalsData = array.filter(function(finals) {
+                return finals.Stage === "Final";
+            });
+            return finalsData;
+        };
 
-function getWinners(callback1) {
+        function getWinners() {
 
-    let finalsDataFiltered = getFinals(fifaData);
-    
-    let winners = [];
-    
-    for(i = 0; i < finalsDataFiltered.length; i++) {
-        if (finalsDataFiltered[i]["Home Team Goals"] === finalsDataFiltered[i]["Away Team Goals"]) {
-            console.log("In " + finalsDataFiltered[i].Year + ", the World Cup Final ended in a tie.");
+            let finalsDataFiltered = getFinals(fifaData);
+            
+            let winners = [];
+            
+            for(i = 0; i < finalsDataFiltered.length; i++) {
+                if (finalsDataFiltered[i]["Home Team Goals"] === finalsDataFiltered[i]["Away Team Goals"]) {
+                    console.log("In " + finalsDataFiltered[i].Year + ", the World Cup Final ended in a tie.");
+                    }
+                else if (finalsDataFiltered[i]["Home Team Goals"] > finalsDataFiltered[i]["Away Team Goals"]) {
+                    winners.push(finalsDataFiltered[i]["Home Team Name"]);
+                }
+                else if (finalsDataFiltered[i]["Away Team Goals"] > finalsDataFiltered[i]["Home Team Goals"]) {
+                    winners.push(finalsDataFiltered[i]["Away Team Name"]);
+                }
             }
-        else if (finalsDataFiltered[i]["Home Team Goals"] > finalsDataFiltered[i]["Away Team Goals"]) {
-            winners.push(finalsDataFiltered[i]["Home Team Name"]);
+            return winners;
+        };
+
+        function getYears(callback) {
+
+            let finalYears = getFinals(fifaData);
+        
+            const years = finalYears.map(i => i.Year);
+            return years;
+        };
+
+        function getWinnersByYear(callback1, callback2) {
+
+            let year = getYears();
+            let country = getWinners();
+            winners = []
+        
+            for (i = 0; i < year.length; i++) {
+                winners.push(year[i], country[i]);
+                console.log("In " + winners[i] + ", " + winners[i + 1] + " won the world cup!");
+                i += 1;
+            };
         }
-        else if (finalsDataFiltered[i]["Away Team Goals"] > finalsDataFiltered[i]["Home Team Goals"]) {
-            winners.push(finalsDataFiltered[i]["Away Team Name"]);
-        }
-    }
-    return winners;
-};
+            
+        getWinnersByYear(getWinners, getYears);
 
-function getYears(callback2) {
 
-    let finalYears = getFinals(fifaData);
-  
-    const years = finalYears.map(i => i.Year);
-    return years;
-};
-
-function getWinnersByYear(callback1, callback2) {
-
-    let winTeam = [{name: getWinners} , {year: getYears}];
-    let winnersByYear =  winTeam.forEach( win => {
-    console.log(`In ${win.year}, ${win.name} won the world cup!`);
-    });
-};
-
-getWinnersByYear(getWinners, getYears);
 
 /* Task 6: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
