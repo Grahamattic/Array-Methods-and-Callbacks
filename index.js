@@ -34,10 +34,6 @@ following pieces of data
 
 /* (b) Away Team name for 2014 world cup final*/
 
-        // It should be as simple as console.log(fifaData[828].awayTeamName);
-        // However, for some reason the home team name is not a key. console.log(fifaData[828].Year);
-        // returns the year correctly, although the previous console.log does not work.
-
         console.log(fifaData[828]["Away Team Name"]);
 
 
@@ -54,8 +50,7 @@ following pieces of data
 
 
 
-/*
-(e) Winner of 2014 world cup final */
+/* (e) Winner of 2014 world cup final */
 
         console.log(fifaData[828]["Win conditions"]);
 
@@ -81,10 +76,6 @@ and returns an array of objects with only finals data */
 /* Task 3: Implement a higher-order function called `getYears` that accepts the callback function
 `getFinals`, and returns an array called `years` containing all of the years in the dataset */
 
-        // My question for WEBPT23_help:
-        // Although the function below works as intended, how do I take in the fifaData dynamically,
-        // from the original getYears function call, so that it passes fifaData to the callback function?
-
         function getFinals(array) {
 
             let finalsData = [];
@@ -99,8 +90,8 @@ and returns an array of objects with only finals data */
         
             let finalYears = getFinals(fifaData);
           
-          const years = finalYears.map(i => i.Year);
-          console.log(years);
+            const years = finalYears.map(i => i.Year);
+            console.log(years);
         };
         
         getYears(getFinals);
@@ -108,44 +99,40 @@ and returns an array of objects with only finals data */
 
 
 /* Task 4: Implement a higher-order function called `getWinners`, that accepts the callback
-function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the
+function `getFinals()` and determines the winner (home or away) of each `finals` game. Return the
  name of all winning countries in an array called `winners` */ 
 
-        // My question for WEBPT23_help:
-        // Although the function below works as intended, how do I take in the fifaData dynamically,
-        // from the original getYears function call, so that it passes fifaData to the callback function?
+        function getFinals(array) {
 
-        // Also, am I suppsed to determine the winner from the goals scored, for the games that did not have
-        // a winner declared?
+            let finalsData = [];
 
+            finalsData = array.filter(function(finals) {
+                return finals.Stage === "Final";
+            });
+            return finalsData;
+        };
 
-        // Try to answer this question using the .map and .filter array methods.
+        function getWinners(callback) {
 
-function getFinals(array) {
+            let finalsDataFiltered = getFinals(fifaData);
+            
+            let winners = [];
+            
+            for(i = 0; i < finalsDataFiltered.length; i++) {
+                if (finalsDataFiltered[i]["Home Team Goals"] === finalsDataFiltered[i]["Away Team Goals"]) {
+                    console.log("In " + finalsDataFiltered[i].Year + ", the World Cup Final ended in a tie.");
+                    }
+                else if (finalsDataFiltered[i]["Home Team Goals"] > finalsDataFiltered[i]["Away Team Goals"]) {
+                    winners.push(finalsDataFiltered[i]["Home Team Name"]);
+                }
+                else if (finalsDataFiltered[i]["Away Team Goals"] > finalsDataFiltered[i]["Home Team Goals"]) {
+                    winners.push(finalsDataFiltered[i]["Away Team Name"]);
+                }
+            }
+            console.log(winners);
+        };
 
-    let finals = [];
-
-    for(i = 0; i < array.length; i++) {
-        if (array[i].Stage === "Final") {
-            finals.push(array[i]);
-        }
-    }
-    return finals;
-}
-
-function getWinners(callback) {
-
-    let finalYears = getFinals(fifaData);
-    
-    let years = [];
-    
-    for(i = 0; i < finalYears.length; i++) {
-        years.push(finalYears[i].Year);
-    }
-    console.log(years);
-};
-
-getWinners(getFinals);
+        getWinners(getFinals);
 
 /* Task 5: Implement a higher-order function called `getWinnersByYear` that accepts the following
 parameters and returns a set of strings "In {year}, {country} won the world cup!" 
@@ -155,23 +142,50 @@ Parameters:
  * callback function getYears
  */
 
- // Try to answer this question using the .map array method.
+function getFinals(array) {
+
+    let finalsData = [];
+
+    finalsData = array.filter(function(finals) {
+        return finals.Stage === "Final";
+    });
+    return finalsData;
+};
 
 function getWinners(callback1) {
-        
-    let years = getFinals(fifaData);
-    console.log(winners);
+
+    let finalsDataFiltered = getFinals(fifaData);
+    
+    let winners = [];
+    
+    for(i = 0; i < finalsDataFiltered.length; i++) {
+        if (finalsDataFiltered[i]["Home Team Goals"] === finalsDataFiltered[i]["Away Team Goals"]) {
+            console.log("In " + finalsDataFiltered[i].Year + ", the World Cup Final ended in a tie.");
+            }
+        else if (finalsDataFiltered[i]["Home Team Goals"] > finalsDataFiltered[i]["Away Team Goals"]) {
+            winners.push(finalsDataFiltered[i]["Home Team Name"]);
+        }
+        else if (finalsDataFiltered[i]["Away Team Goals"] > finalsDataFiltered[i]["Home Team Goals"]) {
+            winners.push(finalsDataFiltered[i]["Away Team Name"]);
+        }
+    }
+    return winners;
 };
 
 function getYears(callback2) {
 
-    let years = getFinals(fifaData);
-    console.log(years);
+    let finalYears = getFinals(fifaData);
+  
+    const years = finalYears.map(i => i.Year);
+    return years;
 };
 
 function getWinnersByYear(callback1, callback2) {
 
-    
+    let winTeam = [{name: getWinners} , {year: getYears}];
+    let winnersByYear =  winTeam.forEach( win => {
+    console.log(`In ${win.year}, ${win.name} won the world cup!`);
+    });
 };
 
 getWinnersByYear(getWinners, getYears);
