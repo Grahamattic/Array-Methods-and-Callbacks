@@ -205,7 +205,7 @@ in 2 steps) */
 
             let sumHomeTeamGoals = 0;
             let sumAwayTeamGoals = 0;
-            let averageHomeTeamGoals = 0
+            let averageHomeTeamGoals = 0;
             let averageAwayTeamGoals = 0;
             let count = 0;
 
@@ -229,15 +229,23 @@ in 2 steps) */
 and returns the number of world cup wins that country has had. 
 
 Hint: Investigate your data to find "team initials"!
-Hint: use `.reduce` */
+Hint: use `.reduce` */+
 
-function getCountryWins(/* code here */) {
+function getCountryWins(array, initials) {
 
-    /* code here */
+    let countryMatches = [];    
+    let worldCupWins = [];
 
+    for(i = 0; i < array.length; i++) {
+        if ((array[i].Stage === "Final") && ((array[i]["Home Team Initials"] || array[i]["Away Team Initials"]) === initials)) {
+            countryMatches.push(array[i]);
+        };
+    };
+
+    // Next task: determine how many "initials" wins in the countryMatches dataset.
 };
 
-getCountryWins();
+getCountryWins(fifaData, "GER");
 
 
 /* Stretch 3: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
