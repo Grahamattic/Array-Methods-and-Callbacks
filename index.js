@@ -197,19 +197,36 @@ Parameters:
 
 
 
-/* Task 6: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
+/* Task 6: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the
+average number of home team goals and away team goals scored per match (Hint: use .reduce and do this
+in 2 steps) */
 
-function getAverageGoals(/* code here */) {
+        function getAverageGoals(data) {
 
-    /* code here */
+            let sumHomeTeamGoals = 0;
+            let sumAwayTeamGoals = 0;
+            let averageHomeTeamGoals = 0
+            let averageAwayTeamGoals = 0;
+            let count = 0;
 
-};
+            for(i = 0; i < data.length; i++) {
 
-getAverageGoals();
+                sumHomeTeamGoals = sumHomeTeamGoals + data[i]["Home Team Goals"];
+                sumAwayTeamGoals = sumAwayTeamGoals + data[i]["Away Team Goals"];
+                count++;
+            }
+            averageHomeTeamGoals = sumHomeTeamGoals / count;
+            averageAwayTeamGoals = sumAwayTeamGoals / count;
+            console.log("Average home team goals: " + averageHomeTeamGoals);
+            console.log("Average away team goals: " + averageAwayTeamGoals);
+        };
+
+        getAverageGoals(fifaData);
 
 /// STRETCH 🥅 //
 
-/* Stretch 1: Create a function called `getCountryWins` that takes the parameters `data` and `team initials` and returns the number of world cup wins that country has had. 
+/* Stretch 1: Create a function called `getCountryWins` that takes the parameters `data` and `team initials`
+and returns the number of world cup wins that country has had. 
 
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
